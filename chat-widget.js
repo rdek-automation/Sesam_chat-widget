@@ -17,14 +17,14 @@
             --chat-color-primary: var(--chat-widget-primary, #10b981);
             --chat-color-secondary: var(--chat-widget-secondary, #059669);
             --chat-color-tertiary: var(--chat-widget-tertiary, #047857);
-            --chat-color-light: var(--chat-widget-light, #d1fae5);
+            --chat-color-light: var(--chat-widget-light, #e5e7eb);
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
             --chat-color-text: var(--chat-widget-text, #1f2937);
             --chat-color-text-light: var(--chat-widget-text-light, #6b7280);
             --chat-color-border: var(--chat-widget-border, #e5e7eb);
-            --chat-shadow-sm: 0 1px 3px rgba(16, 185, 129, 0.1);
-            --chat-shadow-md: 0 4px 6px rgba(16, 185, 129, 0.15);
-            --chat-shadow-lg: 0 10px 15px rgba(16, 185, 129, 0.2);
+            --chat-shadow-sm: 0 1px 3px rgba(0,0,0,0.10);
+            --chat-shadow-md: 0 4px 10px rgba(0,0,0,0.12);
+            --chat-shadow-lg: 0 12px 24px rgba(0,0,0,0.16);
             --chat-radius-sm: 8px;
             --chat-radius-md: 12px;
             --chat-radius-lg: 20px;
@@ -254,7 +254,7 @@
         }
 
         .chat-assist-widget .chat-messages::-webkit-scrollbar-thumb {
-            background-color: rgba(16, 185, 129, 0.3);
+            background-color: rgba(0,0,0,0.20);
             border-radius: var(--chat-radius-full);
         }
 
@@ -332,7 +332,7 @@
         }
 
         .chat-assist-widget .chat-controls {
-            padding: 16px;
+            padding: 10px 12px;
             background: var(--chat-color-surface);
             border-top: 1px solid var(--chat-color-light);
             display: flex;
@@ -341,7 +341,7 @@
 
         .chat-assist-widget .chat-textarea {
             flex: 1;
-            padding: 14px 16px;
+            padding: 12px 14px;
             border: 1px solid var(--chat-color-light);
             border-radius: var(--chat-radius-md);
             background: var(--chat-color-surface);
@@ -352,13 +352,14 @@
             line-height: 1.5;
             max-height: 120px;
             min-height: 48px;
+            height: 48px;
             transition: var(--chat-transition);
         }
 
         .chat-assist-widget .chat-textarea:focus {
             outline: none;
             border-color: var(--chat-color-primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
         }
 
         .chat-assist-widget .chat-textarea::placeholder {
@@ -434,7 +435,7 @@
         }
 
         .chat-assist-widget .chat-footer {
-            padding: 10px;
+            padding: 6px 10px;
             text-align: center;
             background: var(--chat-color-surface);
             border-top: 1px solid var(--chat-color-light);
@@ -445,6 +446,7 @@
             text-decoration: none;
             font-size: 12px;
             opacity: 0.8;
+            line-height: 1.2;
             transition: var(--chat-transition);
             font-family: inherit;
         }
@@ -549,7 +551,7 @@
         .chat-assist-widget .form-input:focus {
             outline: none;
             border-color: var(--chat-color-primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
         }
 
         .chat-assist-widget .form-input.error {
@@ -694,7 +696,7 @@
         </div>
         <div class="chat-header-center">
             <div class="chat-header-title">${settings.branding.name}</div>
-            <div class="chat-header-subtitle">Stil dine spørgsmål her:</div>
+            <div class="chat-header-subtitle">Hvad ønsker du svar på?:</div>
         </div>
         <div class="chat-header-right">
             <button class="chat-close-btn" aria-label="Close">×</button>
@@ -743,6 +745,10 @@
     const messagesContainer = chatWindow.querySelector('.chat-messages');
     const messageTextarea = chatWindow.querySelector('.chat-textarea');
     const sendButton = chatWindow.querySelector('.chat-submit');
+    if (messageTextarea) {
+        // Start compact to match send button
+        messageTextarea.style.height = '48px';
+    }
     
     // Ensure chatBody is active on load (no welcome/registration screens)
     if (chatBody) {
@@ -1035,7 +1041,7 @@
         if (messageText && !isWaitingForResponse) {
             submitMessage(messageText);
             messageTextarea.value = '';
-            messageTextarea.style.height = 'auto';
+            messageTextarea.style.height = '48px';
         }
     });
     
@@ -1048,7 +1054,7 @@
             if (messageText && !isWaitingForResponse) {
                 submitMessage(messageText);
                 messageTextarea.value = '';
-                messageTextarea.style.height = 'auto';
+                messageTextarea.style.height = '48px';
             }
         }
     });
