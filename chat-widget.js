@@ -89,6 +89,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            justify-self: center;
         }
 
         .chat-assist-widget .chat-header-right {
