@@ -67,8 +67,7 @@
 
         .chat-assist-widget .chat-header {
             padding: 16px 16px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
+            display: flex;
             align-items: center;
             gap: 12px;
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
@@ -80,22 +79,26 @@
         .chat-assist-widget .chat-header-left {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            gap: 10px;
         }
 
         .chat-assist-widget .chat-header-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            justify-self: center;
         }
 
         .chat-assist-widget .chat-header-right {
+            margin-left: auto;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
         }
 
         .chat-assist-widget .chat-header-logo-container {
