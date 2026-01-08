@@ -654,6 +654,41 @@
             50%{background-position:100% 50%}
             100%{background-position:0% 50%}
         }
+
+        /* FIX: Prevent input area from shrinking when messages grow */
+        .chat-assist-widget .chat-window {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-assist-widget .chat-body {
+            display: flex !important;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0; /* critical for flex scroll */
+        }
+
+        .chat-assist-widget .chat-messages {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .chat-assist-widget .chat-controls,
+        .chat-assist-widget .chat-footer {
+            flex: 0 0 auto;
+            flex-shrink: 0;
+        }
+
+        .chat-assist-widget .chat-textarea {
+            min-height: 48px !important;
+            height: 48px;
+            box-sizing: border-box;
+        }
+
+        .chat-assist-widget .chat-submit {
+            flex-shrink: 0;
+        }
     `;
     document.head.appendChild(widgetStyles);
 
@@ -1096,8 +1131,16 @@
 
     // Auto-resize textarea as user types
     function autoResizeTextarea() {
+        const minH = 48;
+        const maxH = 120;
+
         messageTextarea.style.height = 'auto';
-        messageTextarea.style.height = (messageTextarea.scrollHeight > 120 ? 120 : messageTextarea.scrollHeight) + 'px';
+        const nextHeight = Math.min(
+            maxH,
+            Math.max(minH, messageTextarea.scrollHeight)
+        );
+
+        messageTextarea.style.height = nextHeight + 'px';
     }
 
     // Event listeners
