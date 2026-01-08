@@ -1,4 +1,36 @@
 // Interactive Chat Widget for n8n
+// 
+// Example Configuration with Suggested Questions:
+// 
+// window.ChatWidgetConfig = {
+//   webhook: {
+//     url: "YOUR_WEBHOOK_URL",
+//     route: "YOUR_WEBHOOK_ROUTE"
+//   },
+//   branding: {
+//     logo: "https://example.com/logo.png",
+//     name: "Sesam-ChatBot",
+//     welcomeText: "Welcome!",
+//     responseTimeText: "Typically replies in minutes",
+//     poweredBy: {
+//       text: "Powered by RK-Automation",
+//       link: "https://example.com"
+//     }
+//   },
+//   style: {
+//     primaryColor: "#10b981",
+//     secondaryColor: "#059669",
+//     position: "right",
+//     backgroundColor: "#ffffff",
+//     fontColor: "#1f2937"
+//   },
+//   suggestedQuestions: [
+//     "How can I help you?",
+//     "What is your question?",
+//     "Tell me more..."
+//   ]
+// };
+//
 (function() {
     // Initialize widget only once
     if (window.N8nChatWidgetLoaded) return;
@@ -696,7 +728,7 @@
         </div>
         <div class="chat-header-center">
             <div class="chat-header-title">${settings.branding.name}</div>
-            <div class="chat-header-subtitle">Hvad ønsker du svar på?:</div>
+            <div class="chat-header-subtitle">Hvad ønsker du svar på?</div>
         </div>
         <div class="chat-header-right">
             <button class="chat-close-btn" aria-label="Close">×</button>
@@ -1026,6 +1058,39 @@
         }
     }
 
+    // Render suggested questions in the messages container
+    function renderSuggestedQuestions() {
+        if (!settings.suggestedQuestions || !Array.isArray(settings.suggestedQuestions) || settings.suggestedQuestions.length === 0) {
+            return;
+        }
+        
+        // Only render if messagesContainer is empty
+        if (messagesContainer.children.length > 0) {
+            return;
+        }
+        
+        const suggestedQuestionsContainer = document.createElement('div');
+        suggestedQuestionsContainer.className = 'suggested-questions';
+        suggestedQuestionsContainer.id = 'initial-suggested-questions';
+        
+        settings.suggestedQuestions.forEach(question => {
+            const questionButton = document.createElement('button');
+            questionButton.className = 'suggested-question-btn';
+            questionButton.textContent = question;
+            questionButton.addEventListener('click', () => {
+                submitMessage(question);
+                // Remove the suggestions container after clicking
+                const container = document.getElementById('initial-suggested-questions');
+                if (container && container.parentNode) {
+                    container.parentNode.removeChild(container);
+                }
+            });
+            suggestedQuestionsContainer.appendChild(questionButton);
+        });
+        
+        messagesContainer.appendChild(suggestedQuestionsContainer);
+    }
+
     // Auto-resize textarea as user types
     function autoResizeTextarea() {
         messageTextarea.style.height = 'auto';
@@ -1039,6 +1104,11 @@
     sendButton.addEventListener('click', () => {
         const messageText = messageTextarea.value.trim();
         if (messageText && !isWaitingForResponse) {
+            // Remove suggested questions when user sends a message
+            const suggestionsContainer = document.getElementById('initial-suggested-questions');
+            if (suggestionsContainer && suggestionsContainer.parentNode) {
+                suggestionsContainer.parentNode.removeChild(suggestionsContainer);
+            }
             submitMessage(messageText);
             messageTextarea.value = '';
             messageTextarea.style.height = '48px';
@@ -1052,6 +1122,11 @@
             event.preventDefault();
             const messageText = messageTextarea.value.trim();
             if (messageText && !isWaitingForResponse) {
+                // Remove suggested questions when user sends a message
+                const suggestionsContainer = document.getElementById('initial-suggested-questions');
+                if (suggestionsContainer && suggestionsContainer.parentNode) {
+                    suggestionsContainer.parentNode.removeChild(suggestionsContainer);
+                }
                 submitMessage(messageText);
                 messageTextarea.value = '';
                 messageTextarea.style.height = '48px';
@@ -1062,11 +1137,17 @@
     // Launcher button toggle (THIS IS THE FIX FOR THE CLICK ISSUE)
     launchButton.addEventListener('click', () => {
         chatWindow.classList.toggle('visible');
+        // Render suggested questions when chat opens and no messages exist
+        if (chatWindow.classList.contains('visible')) {
+            renderSuggestedQuestions();
+        }
     });
 
     // Auto-open chat after 10 seconds
     setTimeout(() => {
         chatWindow.classList.add('visible');
+        // Render suggested questions when auto-opening
+        renderSuggestedQuestions();
     }, 10000);
 
     // Close button functionality
