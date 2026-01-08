@@ -632,7 +632,7 @@
     document.body.appendChild(widgetRoot);
 
     // Get DOM elements
-    const startChatButton = chatWindow.querySelector('.chat-start-btn');
+   // const startChatButton = chatWindow.querySelector('.chat-start-btn');
     const chatBody = chatWindow.querySelector('.chat-body');
     const messagesContainer = chatWindow.querySelector('.chat-messages');
     const messageTextarea = chatWindow.querySelector('.chat-textarea');
@@ -911,8 +911,8 @@
     }
 
     // Event listeners
-    startChatButton.addEventListener('click', showRegistrationForm);
-    registrationForm.addEventListener('submit', handleRegistration);
+    //startChatButton.addEventListener('click', showRegistrationForm);
+    //registrationForm.addEventListener('submit', handleRegistration);
     
     sendButton.addEventListener('click', () => {
         const messageText = messageTextarea.value.trim();
