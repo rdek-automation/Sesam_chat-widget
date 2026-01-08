@@ -598,22 +598,30 @@
 
     // Create chat interface without duplicating the header
     const chatInterfaceHTML = `
-        <div class="chat-body">
-            <div class="chat-messages"></div>
-            <div class="chat-controls">
-                <textarea class="chat-textarea" placeholder="Type your message here..." rows="1"></textarea>
-                <button class="chat-submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 2L11 13"></path>
-                        <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="chat-footer">
-                <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank">${settings.branding.poweredBy.text}</a>
-            </div>
+    <div class="chat-header">
+        <img class="chat-header-logo" src="${settings.branding.logo}" alt="${settings.branding.name}">
+        <span class="chat-header-title">${settings.branding.name}</span>
+        <button class="chat-close-btn" aria-label="Close">×</button>
+    </div>
+
+    <div class="chat-body active">
+        <div class="chat-messages"></div>
+        <div class="chat-controls">
+            <textarea class="chat-textarea" placeholder="Type your message here..." rows="1"></textarea>
+            <button class="chat-submit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 2L11 13"></path>
+                    <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                </svg>
+            </button>
         </div>
-    `;
+        <div class="chat-footer">
+            <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank">
+                ${settings.branding.poweredBy.text}
+            </a>
+        </div>
+    </div>
+`;
     
     chatWindow.innerHTML = chatInterfaceHTML;
     
