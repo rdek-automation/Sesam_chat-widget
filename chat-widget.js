@@ -529,6 +529,28 @@
             cursor: not-allowed;
             transform: none;
         }
+
+        .chat-assist-widget .rk-static{
+            color:#000;
+            font-weight:700;
+        }
+
+        .chat-assist-widget .rk-gradient{
+            font-weight:700;
+            background: linear-gradient(270deg,#fbbf24,#f472b6,#8b5cf6,#fbbf24);
+            background-size:600% 600%;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            color:transparent;
+            animation: rkGradientWave 6s ease infinite;
+        }
+
+        @keyframes rkGradientWave{
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
     `;
     document.head.appendChild(widgetStyles);
 
