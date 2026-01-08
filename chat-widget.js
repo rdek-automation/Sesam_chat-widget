@@ -86,8 +86,8 @@
         }
 
         .chat-assist-widget .chat-header-logo {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 52px;
     object-fit: contain;
     background: transparent;
     padding: 0;
