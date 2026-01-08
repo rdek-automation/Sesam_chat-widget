@@ -66,7 +66,7 @@
         }
 
         .chat-assist-widget .chat-header {
-            padding: 16px;
+    padding: 12px 16px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -76,13 +76,12 @@
         }
 
         .chat-assist-widget .chat-header-logo {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--chat-radius-sm);
-            object-fit: contain;
-            background: white;
-            padding: 4px;
-        }
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    background: transparent;
+    padding: 0;
+}
 
         .chat-assist-widget .chat-header-title {
             font-size: 16px;
