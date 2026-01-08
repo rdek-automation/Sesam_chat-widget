@@ -369,6 +369,8 @@
             border-top: 1px solid var(--chat-color-light);
             display: flex;
             gap: 10px;
+            flex-shrink: 0;
+            align-items: flex-start;
         }
 
         .chat-assist-widget .chat-textarea {
@@ -471,6 +473,7 @@
             text-align: center;
             background: var(--chat-color-surface);
             border-top: 1px solid var(--chat-color-light);
+            flex-shrink: 0;
         }
 
         .chat-assist-widget .chat-footer-link {
