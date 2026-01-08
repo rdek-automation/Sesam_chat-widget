@@ -75,6 +75,15 @@
             position: relative;
         }
 
+        .chat-assist-widget .chat-header-logo-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .chat-assist-widget .chat-header-logo {
     width: 32px;
     height: 32px;
@@ -87,6 +96,8 @@
             font-size: 16px;
             font-weight: 600;
             color: white;
+            position: relative;
+            z-index: 1;
         }
 
         .chat-assist-widget .chat-close-btn {
@@ -625,7 +636,9 @@
     // Create chat interface without duplicating the header
     const chatInterfaceHTML = `
     <div class="chat-header">
-        <img class="chat-header-logo" src="${settings.branding.logo}" alt="${settings.branding.name}">
+        <div class="chat-header-logo-container">
+            <img class="chat-header-logo" src="${settings.branding.logo}" alt="${settings.branding.name}">
+        </div>
         <span class="chat-header-title">${settings.branding.name}</span>
         <button class="chat-close-btn" aria-label="Close">×</button>
     </div>
