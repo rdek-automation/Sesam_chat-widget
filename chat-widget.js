@@ -640,13 +640,17 @@
     document.body.appendChild(widgetRoot);
 
     // Get DOM elements
-   // const startChatButton = chatWindow.querySelector('.chat-start-btn');
     const chatBody = chatWindow.querySelector('.chat-body');
     const messagesContainer = chatWindow.querySelector('.chat-messages');
     const messageTextarea = chatWindow.querySelector('.chat-textarea');
     const sendButton = chatWindow.querySelector('.chat-submit');
     
-    // Registration form elements
+    // Ensure chatBody is active on load (no welcome/registration screens)
+    if (chatBody) {
+        chatBody.classList.add('active');
+    }
+    
+    // Registration form elements (safely query, may not exist)
     const registrationForm = chatWindow.querySelector('.registration-form');
     const userRegistration = chatWindow.querySelector('.user-registration');
     const chatWelcome = chatWindow.querySelector('.chat-welcome');
@@ -844,11 +848,16 @@
 
     // Send a message to the webhook
     async function submitMessage(messageText) {
+        // Initialize conversation ID on first message if not already set
+        if (!conversationId) {
+            conversationId = createSessionId();
+        }
+        
         if (isWaitingForResponse) return;
         
         isWaitingForResponse = true;
         
-        // Get user info if available
+        // Get user info if available (safe fallbacks for removed registration fields)
         const email = nameInput ? nameInput.value.trim() : "";
         const name = emailInput ? emailInput.value.trim() : "";
         
@@ -919,8 +928,8 @@
     }
 
     // Event listeners
-    //startChatButton.addEventListener('click', showRegistrationForm);
-    //registrationForm.addEventListener('submit', handleRegistration);
+    // Start chat button removed (no welcome/registration flow)
+    // Registration form removed (direct chat on load)
     
     sendButton.addEventListener('click', () => {
         const messageText = messageTextarea.value.trim();
@@ -945,14 +954,15 @@
         }
     });
     
+    // Launcher button toggle (THIS IS THE FIX FOR THE CLICK ISSUE)
     launchButton.addEventListener('click', () => {
         chatWindow.classList.toggle('visible');
     });
 
-// Auto-open chat after 10 seconds
-setTimeout(() => {
-  chatWindow.classList.add('visible');
-}, 10000);
+    // Auto-open chat after 10 seconds
+    setTimeout(() => {
+        chatWindow.classList.add('visible');
+    }, 10000);
 
     // Close button functionality
     const closeButtons = chatWindow.querySelectorAll('.chat-close-btn');
