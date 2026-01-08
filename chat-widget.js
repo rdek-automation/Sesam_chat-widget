@@ -66,8 +66,9 @@
         }
 
         .chat-assist-widget .chat-header {
-    padding: 16px 16px;
-            display: flex;
+            padding: 16px 16px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 12px;
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
@@ -76,36 +77,80 @@
             min-height: 64px;
         }
 
+        .chat-assist-widget .chat-header-left {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .chat-assist-widget .chat-header-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .chat-assist-widget .chat-header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
         .chat-assist-widget .chat-header-logo-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .chat-assist-widget .chat-header-logo {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    background: transparent;
-    padding: 0;
-}
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            background: transparent;
+            padding: 0;
+        }
+
+        .chat-assist-widget .chat-live-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #10b981;
+            border-radius: 50%;
+            bottom: 0;
+            right: 0;
+            animation: chatPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes chatPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
 
         .chat-assist-widget .chat-header-title {
             font-size: 18px;
             font-weight: 600;
             color: white;
-            position: relative;
-            z-index: 1;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .chat-assist-widget .chat-header-subtitle {
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 2px 0 0 0;
+            line-height: 1.2;
         }
 
         .chat-assist-widget .chat-close-btn {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
@@ -637,11 +682,19 @@
     // Create chat interface without duplicating the header
     const chatInterfaceHTML = `
     <div class="chat-header">
-        <div class="chat-header-logo-container">
-            <img class="chat-header-logo" src="${settings.branding.logo}" alt="${settings.branding.name}">
+        <div class="chat-header-left">
+            <div class="chat-header-logo-container">
+                <img class="chat-header-logo" src="${settings.branding.logo}" alt="${settings.branding.name}">
+                <span class="chat-live-dot"></span>
+            </div>
         </div>
-        <span class="chat-header-title">${settings.branding.name}</span>
-        <button class="chat-close-btn" aria-label="Close">×</button>
+        <div class="chat-header-center">
+            <div class="chat-header-title">${settings.branding.name}</div>
+            <div class="chat-header-subtitle">Klar til dine spørgsmål</div>
+        </div>
+        <div class="chat-header-right">
+            <button class="chat-close-btn" aria-label="Close">×</button>
+        </div>
     </div>
 
     <div class="chat-body active">
