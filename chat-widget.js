@@ -694,7 +694,7 @@
         </div>
         <div class="chat-header-center">
             <div class="chat-header-title">${settings.branding.name}</div>
-            <div class="chat-header-subtitle">Klar til dine spørgsmål</div>
+            <div class="chat-header-subtitle">Stil dine spørgsmål her:</div>
         </div>
         <div class="chat-header-right">
             <button class="chat-close-btn" aria-label="Close">×</button>
