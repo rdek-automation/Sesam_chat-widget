@@ -615,9 +615,9 @@
             </button>
         </div>
         <div class="chat-footer">
-            <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank">
-                ${settings.branding.poweredBy.text}
-            </a>
+            <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank" rel="noopener noreferrer">
+  Powered by <span class="rk-static">RK - </span><span class="rk-gradient">Automation</span>
+</a>
         </div>
     </div>
 `;
