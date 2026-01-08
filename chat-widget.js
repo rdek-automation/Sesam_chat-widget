@@ -66,13 +66,14 @@
         }
 
         .chat-assist-widget .chat-header {
-    padding: 12px 16px;
+    padding: 16px 16px;
             display: flex;
             align-items: center;
             gap: 12px;
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
             color: white;
             position: relative;
+            min-height: 64px;
         }
 
         .chat-assist-widget .chat-header-logo-container {
@@ -85,15 +86,15 @@
         }
 
         .chat-assist-widget .chat-header-logo {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     background: transparent;
     padding: 0;
 }
 
         .chat-assist-widget .chat-header-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: white;
             position: relative;
