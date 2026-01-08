@@ -530,6 +530,11 @@
             transform: none;
         }
 
+        .chat-assist-widget .rk-poweredby{
+            color:#000;
+            font-weight:500;
+        }
+
         .chat-assist-widget .rk-static{
             color:#000;
             font-weight:700;
@@ -638,7 +643,9 @@
         </div>
         <div class="chat-footer">
             <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank" rel="noopener noreferrer">
-  Powered by <span class="rk-static">RK - </span><span class="rk-gradient">Automation</span>
+  <span class="rk-poweredby">
+    Powered by <span class="rk-static">RK - </span><span class="rk-gradient">Automation</span>
+  </span>
 </a>
         </div>
     </div>
