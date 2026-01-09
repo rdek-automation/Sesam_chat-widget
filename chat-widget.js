@@ -173,19 +173,20 @@
         }
 
         .chat-assist-widget .bot-message-wrapper {
-            display: flex; gap: 10px; align-items: flex-start; align-self: flex-start; max-width: 85%;
+            display: flex; gap: 12px; align-items: flex-end; align-self: flex-start; max-width: 85%;
         }
 
         .chat-assist-widget .bot-avatar {
-            width: 32px; height: 32px; min-width: 32px; border-radius: 50%; overflow: hidden;
-            background: var(--chat-color-light); display: flex; align-items: center; justify-content: center; margin-top: 2px;
+            width: 36px; height: 36px; min-width: 36px; flex-shrink: 0;
+            background: transparent; border: none; padding: 0; border-radius: 0;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .chat-assist-widget .bot-avatar img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+            width: 100%; height: 100%; object-fit: contain; border-radius: 0;
         }
 
-        .chat-assist-widget .bot-message-wrapper .chat-bubble.bot-bubble { align-self: flex-start; margin: 0; }
+        .chat-assist-widget .bot-message-wrapper .chat-bubble.bot-bubble { align-self: flex-end; margin: 0; }
 
         .chat-assist-widget .typing-indicator {
             display: flex; align-items: center; gap: 4px; padding: 14px 18px;
