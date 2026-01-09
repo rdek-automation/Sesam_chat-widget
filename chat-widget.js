@@ -318,6 +318,39 @@
             border: 1px solid var(--chat-color-light);
         }
 
+        .chat-assist-widget .bot-message-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            align-self: flex-start;
+            max-width: 85%;
+        }
+
+        .chat-assist-widget .bot-avatar-container {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--chat-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .chat-assist-widget .bot-avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .chat-assist-widget .bot-message-wrapper .chat-bubble.bot-bubble {
+            align-self: flex-start;
+            margin: 0;
+        }
+
         /* Typing animation */
         .chat-assist-widget .typing-indicator {
             display: flex;
@@ -732,6 +765,7 @@
             welcomeText: '',
             responseTimeText: '',
             introMessage: 'Hej! Hvordan kan jeg hjælpe dig?',
+            botAvatar: '',
             poweredBy: {
                 text: 'Powered by RK-Automation',
                 link: 'https://gustavwester.github.io/rkautomation-website/'
@@ -808,7 +842,7 @@
     <div class="chat-body active">
         <div class="chat-messages"></div>
         <div class="chat-controls">
-            <div class="chat-info-bar">Upload ikke personlige oplysninger</div>
+            <div class="chat-info-bar">Husk, upload ikke dine personlige oplysninger</div>
             <div class="chat-controls-input">
                 <textarea class="chat-textarea" placeholder="Stil et spørgsmål..." rows="1"></textarea>
                 <button class="chat-submit">
@@ -895,6 +929,32 @@
         return text.replace(urlPattern, function(url) {
             return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="chat-link">${url}</a>`;
         });
+    }
+
+    // Create a bot message bubble, optionally wrapped with avatar
+    function createBotMessageElement(messageHTML) {
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-bubble bot-bubble';
+        botMessage.innerHTML = messageHTML;
+
+        // If bot avatar is configured, wrap the message with avatar
+        if (settings.branding.botAvatar && settings.branding.botAvatar.trim()) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'bot-message-wrapper';
+
+            const avatarContainer = document.createElement('div');
+            avatarContainer.className = 'bot-avatar-container';
+            const avatarImg = document.createElement('img');
+            avatarImg.src = settings.branding.botAvatar;
+            avatarImg.alt = 'Bot Avatar';
+            avatarContainer.appendChild(avatarImg);
+
+            wrapper.appendChild(avatarContainer);
+            wrapper.appendChild(botMessage);
+            return wrapper;
+        }
+
+        return botMessage;
     }
 
     // Show registration form
@@ -1008,12 +1068,10 @@
             messagesContainer.removeChild(typingIndicator);
             
             // Display initial bot message with clickable links
-            const botMessage = document.createElement('div');
-            botMessage.className = 'chat-bubble bot-bubble';
             const messageText = Array.isArray(userInfoResponseData) ? 
                 userInfoResponseData[0].output : userInfoResponseData.output;
-            botMessage.innerHTML = linkifyText(messageText);
-            messagesContainer.appendChild(botMessage);
+            const botMessageElement = createBotMessageElement(linkifyText(messageText));
+            messagesContainer.appendChild(botMessageElement);
             
             // (Removed: initial suggested-questions injection)
             
@@ -1028,10 +1086,8 @@
             }
             
             // Show error message
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'chat-bubble bot-bubble';
-            errorMessage.textContent = "Sorry, I couldn't connect to the server. Please try again later.";
-            messagesContainer.appendChild(errorMessage);
+            const errorMessageElement = createBotMessageElement("Sorry, I couldn't connect to the server. Please try again later.");
+            messagesContainer.appendChild(errorMessageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     }
@@ -1088,11 +1144,9 @@
             messagesContainer.removeChild(typingIndicator);
             
             // Display bot response with clickable links
-            const botMessage = document.createElement('div');
-            botMessage.className = 'chat-bubble bot-bubble';
             const responseText = Array.isArray(responseData) ? responseData[0].output : responseData.output;
-            botMessage.innerHTML = linkifyText(responseText);
-            messagesContainer.appendChild(botMessage);
+            const botMessageElement = createBotMessageElement(linkifyText(responseText));
+            messagesContainer.appendChild(botMessageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } catch (error) {
             console.error('Message submission error:', error);
@@ -1101,10 +1155,8 @@
             messagesContainer.removeChild(typingIndicator);
             
             // Show error message
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'chat-bubble bot-bubble';
-            errorMessage.textContent = "Sorry, I couldn't send your message. Please try again.";
-            messagesContainer.appendChild(errorMessage);
+            const errorMessageElement = createBotMessageElement("Sorry, I couldn't send your message. Please try again.");
+            messagesContainer.appendChild(errorMessageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } finally {
             isWaitingForResponse = false;
@@ -1121,10 +1173,14 @@
             return;
         }
         
-        const botMessage = document.createElement('div');
-        botMessage.className = 'chat-bubble bot-bubble intro-message';
-        botMessage.innerHTML = linkifyText(settings.branding.introMessage.replace(/\n/g, '<br>'));
-        messagesContainer.appendChild(botMessage);
+        const messageHTML = linkifyText(settings.branding.introMessage.replace(/\n/g, '<br>'));
+        const botMessageElement = createBotMessageElement(messageHTML);
+        if (botMessageElement.classList && botMessageElement.classList.contains('chat-bubble')) {
+            botMessageElement.classList.add('intro-message');
+        } else if (botMessageElement.querySelector('.chat-bubble')) {
+            botMessageElement.querySelector('.chat-bubble').classList.add('intro-message');
+        }
+        messagesContainer.appendChild(botMessageElement);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
         introInserted = true;
     }
