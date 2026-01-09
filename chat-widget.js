@@ -373,6 +373,19 @@
             align-items: flex-start;
         }
 
+        .chat-assist-widget .chat-info-bar {
+            width: 100%;
+            padding: 6px 14px;
+            font-size: 12px;
+            color: #9ca3af; /* subtle light gray */
+            background: rgba(243,244,246,0.8); /* very light gray, not green */
+            border-radius: var(--chat-radius-sm);
+            margin: 8px 0; /* small spacing to separate from messages and input */
+            box-sizing: border-box;
+            text-align: left;
+            pointer-events: none; /* purely informational */
+        }
+
         .chat-assist-widget .chat-textarea {
             flex: 1;
             padding: 12px 14px;
@@ -775,6 +788,7 @@
 
     <div class="chat-body active">
         <div class="chat-messages"></div>
+        <div class="chat-info-bar">Upload ikke personlige oplysninger</div>
         <div class="chat-controls">
             <textarea class="chat-textarea" placeholder="Stil et spørgsmål..." rows="1"></textarea>
             <button class="chat-submit">
