@@ -376,13 +376,13 @@
 
         .chat-assist-widget .chat-info-bar {
             width: 100%;
-            padding: 6px 14px;
+            padding: 8px 14px;
             font-size: 12px;
             color: #9ca3af; /* subtle light gray */
             background: #f3f4f6; /* solid very light gray */
             border: none;
             border-radius: var(--chat-radius-sm);
-            margin: 8px 12px;
+            margin: 0;
             box-sizing: border-box;
             text-align: center; /* centered per request */
             box-shadow: none; /* no shadow */
@@ -397,7 +397,7 @@
             gap: 10px;
             padding: 10px 12px;
             background: var(--chat-color-surface);
-            border-top: 1px solid var(--chat-color-light);
+            border-top: none;
             align-items: flex-start;
         }
 
