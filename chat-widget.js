@@ -379,7 +379,7 @@
             padding: 8px 14px;
             font-size: 12px;
             color: #9ca3af; /* subtle light gray */
-            background: #f3f4f6; /* solid very light gray */
+            background: #f9fafb; /* matches chat messages background */
             border: none;
             border-radius: var(--chat-radius-sm);
             margin: 0;
