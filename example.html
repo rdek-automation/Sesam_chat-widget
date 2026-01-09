@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Widget Example</title>
+</head>
+<body>
+    <h1>My Website with Chat Widget</h1>
+    <p>The chat widget will appear in the bottom right corner.</p>
+
+    <!-- Configure the chat widget BEFORE loading the script -->
+    <script>
+        window.ChatWidgetConfig = {
+            webhook: {
+                url: "YOUR_WEBHOOK_URL",
+                route: "YOUR_WEBHOOK_ROUTE"
+            },
+            branding: {
+                logo: "https://example.com/logo.png",
+                name: "Sesam-ChatBot",
+                welcomeText: "Welcome!",
+                responseTimeText: "Typically replies in minutes",
+                introMessage: "Hej! Hvordan kan jeg hjælpe dig?",
+                botAvatar: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
+                poweredBy: {
+                    text: "Powered by RK-Automation",
+                    link: "https://example.com"
+                }
+            },
+            style: {
+                primaryColor: "#10b981",
+                secondaryColor: "#059669",
+                position: "right",
+                backgroundColor: "#ffffff",
+                fontColor: "#1f2937"
+            }
+        };
+    </script>
+
+    <!-- Load the chat widget script -->
+    <script src="chat-widget.js"></script>
+</body>
+</html>
