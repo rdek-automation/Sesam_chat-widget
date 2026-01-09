@@ -731,6 +731,7 @@
             name: '',
             welcomeText: '',
             responseTimeText: '',
+            introMessage: 'Hej! Hvordan kan jeg hjælpe dig?',
             poweredBy: {
                 text: 'Powered by RK-Automation',
                 link: 'https://gustavwester.github.io/rkautomation-website/'
@@ -760,6 +761,9 @@
             },
             suggestedQuestions: window.ChatWidgetConfig.suggestedQuestions || defaultSettings.suggestedQuestions
         } : defaultSettings;
+
+    // Guard to prevent intro message from being inserted multiple times
+    let introInserted = false;
 
     // Session tracking
     let conversationId = '';
@@ -1110,6 +1114,21 @@
     // Render suggested questions in the messages container
     // (Removed: function that auto-renders initial suggested questions)
 
+    // Insert intro message as a bot bubble
+    function insertIntroMessage() {
+        // Only insert once per page load
+        if (introInserted || !settings.branding.introMessage) {
+            return;
+        }
+        
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-bubble bot-bubble intro-message';
+        botMessage.innerHTML = linkifyText(settings.branding.introMessage.replace(/\n/g, '<br>'));
+        messagesContainer.appendChild(botMessage);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        introInserted = true;
+    }
+
     // Auto-resize textarea as user types
     function autoResizeTextarea() {
         const minH = 48;
@@ -1164,13 +1183,15 @@
     // Launcher button toggle (THIS IS THE FIX FOR THE CLICK ISSUE)
     launchButton.addEventListener('click', () => {
         chatWindow.classList.toggle('visible');
-        // (No initial suggested questions should be rendered on open)
+        if (chatWindow.classList.contains('visible')) {
+            insertIntroMessage();
+        }
     });
 
     // Auto-open chat after 10 seconds
     setTimeout(() => {
         chatWindow.classList.add('visible');
-        // Auto-open chat after 10s; do not render initial suggested questions
+        insertIntroMessage();
     }, 10000);
 
     // Close button functionality
