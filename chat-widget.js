@@ -980,27 +980,7 @@
             botMessage.innerHTML = linkifyText(messageText);
             messagesContainer.appendChild(botMessage);
             
-            // Add sample questions if configured
-            if (settings.suggestedQuestions && Array.isArray(settings.suggestedQuestions) && settings.suggestedQuestions.length > 0) {
-                const suggestedQuestionsContainer = document.createElement('div');
-                suggestedQuestionsContainer.className = 'suggested-questions';
-                
-                settings.suggestedQuestions.forEach(question => {
-                    const questionButton = document.createElement('button');
-                    questionButton.className = 'suggested-question-btn';
-                    questionButton.textContent = question;
-                    questionButton.addEventListener('click', () => {
-                        submitMessage(question);
-                        // Remove the suggestions after clicking
-                        if (suggestedQuestionsContainer.parentNode) {
-                            suggestedQuestionsContainer.parentNode.removeChild(suggestedQuestionsContainer);
-                        }
-                    });
-                    suggestedQuestionsContainer.appendChild(questionButton);
-                });
-                
-                messagesContainer.appendChild(suggestedQuestionsContainer);
-            }
+            // (Removed: initial suggested-questions injection)
             
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } catch (error) {
@@ -1097,37 +1077,7 @@
     }
 
     // Render suggested questions in the messages container
-    function renderSuggestedQuestions() {
-        if (!settings.suggestedQuestions || !Array.isArray(settings.suggestedQuestions) || settings.suggestedQuestions.length === 0) {
-            return;
-        }
-        
-        // Only render if messagesContainer is empty
-        if (messagesContainer.children.length > 0) {
-            return;
-        }
-        
-        const suggestedQuestionsContainer = document.createElement('div');
-        suggestedQuestionsContainer.className = 'suggested-questions';
-        suggestedQuestionsContainer.id = 'initial-suggested-questions';
-        
-        settings.suggestedQuestions.forEach(question => {
-            const questionButton = document.createElement('button');
-            questionButton.className = 'suggested-question-btn';
-            questionButton.textContent = question;
-            questionButton.addEventListener('click', () => {
-                submitMessage(question);
-                // Remove the suggestions container after clicking
-                const container = document.getElementById('initial-suggested-questions');
-                if (container && container.parentNode) {
-                    container.parentNode.removeChild(container);
-                }
-            });
-            suggestedQuestionsContainer.appendChild(questionButton);
-        });
-        
-        messagesContainer.appendChild(suggestedQuestionsContainer);
-    }
+    // (Removed: function that auto-renders initial suggested questions)
 
     // Auto-resize textarea as user types
     function autoResizeTextarea() {
@@ -1183,17 +1133,13 @@
     // Launcher button toggle (THIS IS THE FIX FOR THE CLICK ISSUE)
     launchButton.addEventListener('click', () => {
         chatWindow.classList.toggle('visible');
-        // Render suggested questions when chat opens and no messages exist
-        if (chatWindow.classList.contains('visible')) {
-            renderSuggestedQuestions();
-        }
+        // (No initial suggested questions should be rendered on open)
     });
 
     // Auto-open chat after 10 seconds
     setTimeout(() => {
         chatWindow.classList.add('visible');
-        // Render suggested questions when auto-opening
-        renderSuggestedQuestions();
+        // Auto-open chat after 10s; do not render initial suggested questions
     }, 10000);
 
     // Close button functionality
