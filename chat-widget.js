@@ -380,8 +380,8 @@
             font-size: 12px;
             color: #9ca3af; /* subtle light gray */
             background: #f9fafb; /* matches chat messages background */
-            border: none;
-            border-radius: var(--chat-radius-sm);
+            border: 1px solid var(--chat-color-light); /* subtle border using widget divider color */
+            border-radius: var(--chat-radius-md); /* matches input field radius */
             margin: 0;
             box-sizing: border-box;
             text-align: center; /* centered per request */
