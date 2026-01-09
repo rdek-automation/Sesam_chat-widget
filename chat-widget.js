@@ -31,6 +31,7 @@
             welcomeText: '',
             responseTimeText: '',
             introMessage: 'Hej! Hvordan kan jeg hjælpe dig?',
+            botAvatarUrl: '',
             poweredBy: {
                 text: 'Powered by RK-Automation',
                 link: 'https://gustavwester.github.io/rkautomation-website/'
@@ -170,6 +171,21 @@
             border-bottom-left-radius: 4px; box-shadow: var(--chat-shadow-sm);
             border: 1px solid var(--chat-color-light);
         }
+
+        .chat-assist-widget .bot-message-wrapper {
+            display: flex; gap: 10px; align-items: flex-start; align-self: flex-start; max-width: 85%;
+        }
+
+        .chat-assist-widget .bot-avatar {
+            width: 32px; height: 32px; min-width: 32px; border-radius: 50%; overflow: hidden;
+            background: var(--chat-color-light); display: flex; align-items: center; justify-content: center; margin-top: 2px;
+        }
+
+        .chat-assist-widget .bot-avatar img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+        }
+
+        .chat-assist-widget .bot-message-wrapper .chat-bubble.bot-bubble { align-self: flex-start; margin: 0; }
 
         .chat-assist-widget .typing-indicator {
             display: flex; align-items: center; gap: 4px; padding: 14px 18px;
@@ -313,7 +329,7 @@
         <div class="chat-body active">
             <div class="chat-messages"></div>
             <div class="chat-controls">
-                <div class="chat-info-bar">Upload ikke personlige oplysninger</div>
+                <div class="chat-info-bar">Husk, upload ikke dine personlige oplysninger</div>
                 <div class="chat-controls-input">
                     <textarea class="chat-textarea" placeholder="Stil et spørgsmål..." rows="1"></textarea>
                     <button class="chat-submit">
@@ -389,6 +405,24 @@
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble bot-bubble';
         bubble.innerHTML = linkifyText(text);
+
+        // Wrap with avatar if configured
+        if (settings.branding.botAvatarUrl) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'bot-message-wrapper';
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'bot-avatar';
+            const img = document.createElement('img');
+            img.src = settings.branding.botAvatarUrl;
+            img.alt = 'Bot Avatar';
+            avatarDiv.appendChild(img);
+
+            wrapper.appendChild(avatarDiv);
+            wrapper.appendChild(bubble);
+            return wrapper;
+        }
+
         return bubble;
     }
 
