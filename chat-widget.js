@@ -378,11 +378,11 @@
             padding: 6px 14px;
             font-size: 12px;
             color: #9ca3af; /* subtle light gray */
-            background: rgba(243,244,246,0.8); /* very light gray, not green */
+            background: #f3f4f6; /* solid very light gray */
             border-radius: var(--chat-radius-sm);
             margin: 8px 0; /* small spacing to separate from messages and input */
             box-sizing: border-box;
-            text-align: left;
+            text-align: center; /* centered per request */
             pointer-events: none; /* purely informational */
         }
 
