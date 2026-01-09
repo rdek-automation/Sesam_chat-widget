@@ -379,10 +379,13 @@
             font-size: 12px;
             color: #9ca3af; /* subtle light gray */
             background: #f3f4f6; /* solid very light gray */
+            border: 1px solid #f3f4f6; /* border matches background, no white edge */
             border-radius: var(--chat-radius-sm);
             margin: 8px 0; /* small spacing to separate from messages and input */
             box-sizing: border-box;
             text-align: center; /* centered per request */
+            box-shadow: none; /* no shadow that could show white edge */
+            outline: none; /* no outline */
             pointer-events: none; /* purely informational */
         }
 
