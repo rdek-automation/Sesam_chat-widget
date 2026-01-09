@@ -364,13 +364,14 @@
         }
 
         .chat-assist-widget .chat-controls {
-            padding: 10px 12px;
-            background: var(--chat-color-surface);
-            border-top: 1px solid var(--chat-color-light);
+            padding: 0;
+            background: transparent;
+            border-top: none;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 0;
             flex-shrink: 0;
-            align-items: flex-start;
+            align-items: stretch;
         }
 
         .chat-assist-widget .chat-info-bar {
@@ -379,14 +380,25 @@
             font-size: 12px;
             color: #9ca3af; /* subtle light gray */
             background: #f3f4f6; /* solid very light gray */
-            border: 1px solid #f3f4f6; /* border matches background, no white edge */
+            border: none;
             border-radius: var(--chat-radius-sm);
-            margin: 8px 0; /* small spacing to separate from messages and input */
+            margin: 8px 12px;
             box-sizing: border-box;
             text-align: center; /* centered per request */
-            box-shadow: none; /* no shadow that could show white edge */
+            box-shadow: none; /* no shadow */
             outline: none; /* no outline */
             pointer-events: none; /* purely informational */
+            display: block;
+            line-height: 1.2;
+        }
+
+        .chat-assist-widget .chat-controls-input {
+            display: flex;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--chat-color-surface);
+            border-top: 1px solid var(--chat-color-light);
+            align-items: flex-start;
         }
 
         .chat-assist-widget .chat-textarea {
@@ -791,15 +803,17 @@
 
     <div class="chat-body active">
         <div class="chat-messages"></div>
-        <div class="chat-info-bar">Upload ikke personlige oplysninger</div>
         <div class="chat-controls">
-            <textarea class="chat-textarea" placeholder="Stil et spørgsmål..." rows="1"></textarea>
-            <button class="chat-submit">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 2L11 13"></path>
-                    <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
-                </svg>
-            </button>
+            <div class="chat-info-bar">Upload ikke personlige oplysninger</div>
+            <div class="chat-controls-input">
+                <textarea class="chat-textarea" placeholder="Stil et spørgsmål..." rows="1"></textarea>
+                <button class="chat-submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 2L11 13"></path>
+                        <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
         <div class="chat-footer">
             <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank" rel="noopener noreferrer">
