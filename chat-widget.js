@@ -31,7 +31,7 @@
             welcomeText: '',
             responseTimeText: '',
             introMessage: 'Hej! Hvordan kan jeg hjælpe dig?',
-            botAvatarUrl: '',
+            botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
                 text: 'Powered by RK-Automation',
                 link: 'https://gustavwester.github.io/rkautomation-website/'
