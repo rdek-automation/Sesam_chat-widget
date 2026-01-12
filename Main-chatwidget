@@ -11,7 +11,7 @@
 //     logo: "https://example.com/logo.png",
 //     name: "Sesam-ChatBot",
 //     introMessage: "Hej! Hvordan kan jeg hjælpe dig?",
-//     poweredBy: { text: "Powered by RK-Automation", link: "https://example.com" }
+//     poweredBy: { text: "Powered by RK-Automation", link: "https://gustavwester.github.io/rkautomation-website/" }
 //   },
 //   style: { primaryColor: "#10b981", secondaryColor: "#059669", position: "right" }
 // };
