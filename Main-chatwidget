@@ -298,7 +298,7 @@
             100% { background-position: 0% 50%; }
         }
     `;
-    document.head.appendChild(widgetStyles);
+    // Styles are attached into the widget's Shadow DOM below (isolation from host page styles)
 
     // ========== 3. DOM CREATION ==========
     const widgetRoot = document.createElement('div');
@@ -360,9 +360,39 @@
         <span class="chat-launcher-text">Chatbot!</span>
     `;
 
-    widgetRoot.appendChild(chatWindow);
-    widgetRoot.appendChild(launchButton);
+    // Add interactive elements into the Shadow DOM to keep everything self-contained
+    shadow.appendChild(chatWindow);
+    shadow.appendChild(launchButton);
     document.body.appendChild(widgetRoot);
+
+    // Post-attach: defensive image handling so missing or failing images don't break layout
+    // Header logo: if it fails to load, replace it with an inline SVG fallback (no broken image icons)
+    const headerLogo = shadow.querySelector('.chat-header-logo');
+    if (headerLogo) {
+        headerLogo.crossOrigin = 'anonymous';
+        headerLogo.addEventListener('error', () => {
+            const container = headerLogo.closest('.chat-header-logo-container');
+            if (!container) return;
+            headerLogo.remove();
+            const fallback = document.createElement('div');
+            fallback.className = 'chat-header-logo-fallback';
+            fallback.innerHTML = '<svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect rx="8" width="56" height="56" fill="#10b981"/><text x="50%" y="50%" fill="#fff" font-family="Poppins, sans-serif" font-weight="700" font-size="18" text-anchor="middle" dominant-baseline="central">RK</text></svg>';
+            container.appendChild(fallback);
+        });
+        // Ensure fallback is used if provided src is not absolute
+        if (!headerLogo.src || (headerLogo.src.indexOf('http') !== 0 && !headerLogo.src.startsWith('data:'))) {
+            headerLogo.src = settings.branding.logo || DEFAULT_LOGO;
+        }
+    }
+
+    // Preload bot avatar; if it fails, null it out so rendering falls back gracefully
+    if (settings.branding.botAvatarUrl) {
+        const _pre = new Image();
+        _pre.crossOrigin = 'anonymous';
+        _pre.onload = () => {};
+        _pre.onerror = () => { settings.branding.botAvatarUrl = null; };
+        _pre.src = settings.branding.botAvatarUrl;
+    }
 
     // ========== 4. DOM REFERENCES ==========
     const chatBody = chatWindow.querySelector('.chat-body');
@@ -381,7 +411,24 @@
     function createSessionId() {
         return crypto.randomUUID();
     }
+    // Demo / preview helpers: provide safe, inlined defaults and ensure configured assets are absolute URLs.
+    // These are defensive fallbacks used only to avoid broken UI in demos, previews, and iframes.
+    const DEFAULT_LOGO = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect rx="8" width="56" height="56" fill="#10b981"/><text x="50%" y="50%" font-size="18" fill="#ffffff" font-family="Poppins, sans-serif" font-weight="700" text-anchor="middle" alignment-baseline="central">RK</text></svg>');
+    const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="12" r="6" fill="#059669"/><rect x="6" y="22" width="24" height="8" rx="4" fill="#059669"/></svg>');
 
+    function sanitizeAssetUrl(url, fallback) {
+        // Accept absolute http(s), protocol-relative, and data urls only; otherwise use fallback to avoid broken images
+        if (!url) return fallback;
+        if (/^(data:|https?:)?\/\//i.test(url)) return url;
+        return fallback;
+    }
+
+    // Ensure branding assets are sanitized for demo/preview so they never render broken icons
+    settings.branding.logo = sanitizeAssetUrl(settings.branding.logo, DEFAULT_LOGO);
+    settings.branding.botAvatarUrl = sanitizeAssetUrl(settings.branding.botAvatarUrl, DEFAULT_AVATAR);
+
+    // Whether the widget is running in demo/preview mode (no webhook configured)
+    const IS_DEMO = !settings.webhook?.url;
     function linkifyText(text) {
         const urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
         return text.replace(urlPattern, url => 
@@ -417,6 +464,11 @@
             const img = document.createElement('img');
             img.src = settings.branding.botAvatarUrl;
             img.alt = 'Bot Avatar';
+            img.crossOrigin = 'anonymous';
+            // If avatar fails to load, remove it so layout stays clean and no broken icon shows
+            img.addEventListener('error', () => {
+                if (avatarDiv && avatarDiv.parentNode) avatarDiv.remove();
+            });
             avatarDiv.appendChild(img);
 
             wrapper.appendChild(avatarDiv);
@@ -460,20 +512,28 @@
         appendAndScroll(typingIndicator);
 
         try {
-            const response = await fetch(settings.webhook.url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestData)
-            });
+            // Demo-mode: if no webhook configured, simulate a safe demo response instead of attempting network calls
+            if (!settings.webhook?.url) {
+                await new Promise(res => setTimeout(res, 700)); // small delay to emulate response time
+                messagesContainer.removeChild(typingIndicator);
+                appendAndScroll(renderBotMessage("Dette er en demo. Der er ingen webhook konfigureret."));
+            } else {
+                const response = await fetch(settings.webhook.url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestData)
+                });
 
-            const data = await response.json();
-            messagesContainer.removeChild(typingIndicator);
+                const data = await response.json();
+                messagesContainer.removeChild(typingIndicator);
 
-            const text = Array.isArray(data) ? data[0].output : data.output;
-            appendAndScroll(renderBotMessage(text));
+                const text = Array.isArray(data) ? data[0].output : data.output;
+                appendAndScroll(renderBotMessage(text));
+            }
         } catch (error) {
             console.error('Message submission error:', error);
-            messagesContainer.removeChild(typingIndicator);
+            // Make sure typing indicator is removed in all error cases
+            if (messagesContainer.contains(typingIndicator)) messagesContainer.removeChild(typingIndicator);
             appendAndScroll(renderBotMessage("Sorry, I couldn't send your message. Please try again."));
         } finally {
             isWaitingForResponse = false;
