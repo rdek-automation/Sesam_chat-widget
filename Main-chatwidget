@@ -5,7 +5,7 @@
 // window.ChatWidgetConfig = {
 //   webhook: {
 //     url: "YOUR_WEBHOOK_URL",
-//     route: "YOUR_WEBHOOK_ROUTE"
+//     route: "https://rk-automation.app.n8n.cloud/webhook/0efc804b-2816-40a7-989d-ecadfe6d7cdc/chat"
 //   },
 //   branding: {
 //     logo: "https://example.com/logo.png",
@@ -26,11 +26,11 @@
     const defaultSettings = {
         webhook: { url: '', route: '' },
         branding: {
-            logo: '',
+            logo: 'https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png',
             name: '',
             welcomeText: '',
             responseTimeText: '',
-            introMessage: 'Hej! Hvordan kan jeg hjælpe dig?',
+            introMessage: 'Hej, Jeg er Andy! Hvordan kan jeg hjælpe dig idag? Jeg kan svare på det fleste spørgsmål ;).',
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
                 text: 'Powered by RK-Automation',
@@ -38,11 +38,11 @@
             }
         },
         style: {
-            primaryColor: '#10b981',
-            secondaryColor: '#059669',
+            primaryColor: '#e10600',
+            secondaryColor: '#b20000',
             position: 'right',
             backgroundColor: '#ffffff',
-            fontColor: '#1f2937',
+            fontColor: '#111827',
             headerTextColor: '#ffffff'
         },
         suggestedQuestions: []
