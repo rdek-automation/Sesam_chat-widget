@@ -4,17 +4,17 @@
 // Example Configuration:
 // window.ChatWidgetConfig = {
 //   webhook: {
-//     url: "YOUR_WEBHOOK_URL",
-//     route: "YOUR_WEBHOOK_ROUTE"
+//     url: "https://rk-automation.app.n8n.cloud/webhook/0efc804b-2816-40a7-989d-ecadfe6d7cdc/chat",
+//     route: "chat"
 //   },
 //   branding: {
-//     logo: "https://example.com/logo.png",
-//     name: "Sesam-ChatBot",
-//     introMessage: "Hej! Hvordan kan jeg hjælpe dig?",
-//     poweredBy: { text: "Powered by RK-Automation", link: "https://example.com" }
+//     logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
+//     name: "V85",
+//     introMessage: "Hej! Hvordan kan jeg hjælpe dig i dag?",
+//     poweredBy: { text: "V85", link: "https://v85.dk" }
 //   },
-//   style: { primaryColor: "#10b981", secondaryColor: "#059669", position: "right" }
-// };
+//   style: { primaryColor: "#d84b4b", secondaryColor: "#b83a3a", position: "right" }
+// }; 
 // ============================================================================
 
 (function() {
@@ -24,40 +24,34 @@
 
     // ========== 1. DEFAULTS & CONFIG MERGE ==========
     const defaultSettings = {
-        webhook: { url: '', route: '' },
+        webhook: { url: 'https://rk-automation.app.n8n.cloud/webhook/0efc804b-2816-40a7-989d-ecadfe6d7cdc/chat', route: 'chat' },
         branding: {
-            logo: '',
-            name: '',
-            welcomeText: '',
-            responseTimeText: '',
-            introMessage: 'Hej! Hvordan kan jeg hjælpe dig?',
+            logo: 'https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png',
+            name: 'V85',
+            welcomeText: 'Velkommen til V85',
+            responseTimeText: 'Typisk svar inden for få minutter',
+            introMessage: 'Hej! Hvordan kan jeg hjælpe dig i dag?',
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
-                text: 'Powered by RK-Automation',
-                link: 'https://gustavwester.github.io/rkautomation-website/'
+                text: 'V85',
+                link: 'https://v85.dk'
             }
         },
         style: {
-            primaryColor: '#10b981',
-            secondaryColor: '#059669',
+            primaryColor: '#d84b4b',
+            secondaryColor: '#b83a3a',
             position: 'right',
             backgroundColor: '#ffffff',
-            fontColor: '#1f2937'
+            fontColor: '#111827',
+            headerTextColor: '#ffffff'
         },
         suggestedQuestions: []
     };
 
     const settings = window.ChatWidgetConfig ? {
-        webhook: { ...defaultSettings.webhook, ...window.ChatWidgetConfig.webhook },
-        branding: { ...defaultSettings.branding, ...window.ChatWidgetConfig.branding },
-        style: {
-            ...defaultSettings.style,
-            ...window.ChatWidgetConfig.style,
-            primaryColor: window.ChatWidgetConfig.style?.primaryColor === '#854fff' ? '#10b981' : 
-                         (window.ChatWidgetConfig.style?.primaryColor || '#10b981'),
-            secondaryColor: window.ChatWidgetConfig.style?.secondaryColor === '#6b3fd4' ? '#059669' : 
-                           (window.ChatWidgetConfig.style?.secondaryColor || '#059669')
-        },
+        webhook: { ...defaultSettings.webhook, ...(window.ChatWidgetConfig.webhook || {}) },
+        branding: { ...defaultSettings.branding, ...(window.ChatWidgetConfig.branding || {}) },
+        style: { ...defaultSettings.style, ...(window.ChatWidgetConfig.style || {}) },
         suggestedQuestions: window.ChatWidgetConfig.suggestedQuestions || defaultSettings.suggestedQuestions
     } : defaultSettings;
 
@@ -70,9 +64,9 @@
     const widgetStyles = document.createElement('style');
     widgetStyles.textContent = `
         .chat-assist-widget {
-            --chat-color-primary: var(--chat-widget-primary, #10b981);
-            --chat-color-secondary: var(--chat-widget-secondary, #059669);
-            --chat-color-tertiary: var(--chat-widget-tertiary, #047857);
+            --chat-color-primary: var(--chat-widget-primary, #d84b4b);
+            --chat-color-secondary: var(--chat-widget-secondary, #b83a3a);
+            --chat-color-tertiary: var(--chat-widget-tertiary, #b83a3a);
             --chat-color-light: var(--chat-widget-light, #e5e7eb);
             --chat-color-surface: var(--chat-widget-surface, #ffffff);
             --chat-color-text: var(--chat-widget-text, #1f2937);
@@ -119,7 +113,7 @@
         .chat-assist-widget .chat-header-logo { width: 56px; height: 56px; object-fit: contain; background: transparent; padding: 0; }
 
         .chat-assist-widget .chat-live-dot {
-            position: absolute; width: 12px; height: 12px; background-color: #10b981;
+            position: absolute; width: 12px; height: 12px; background-color: var(--chat-color-primary);
             border-radius: 50%; bottom: 0; right: 0; animation: chatPulse 2s ease-in-out infinite;
         }
 
@@ -128,7 +122,7 @@
             50% { transform: scale(1.2); opacity: 0.8; }
         }
 
-        .chat-assist-widget .chat-header-title { font-size: 18px; font-weight: 600; color: white; margin: 0; line-height: 1.2; }
+        .chat-assist-widget .chat-header-title { font-size: 18px; font-weight: 600; color: var(--chat-color-header, #ffffff); margin: 0; line-height: 1.2; }
         .chat-assist-widget .chat-header-subtitle { font-size: 12px; font-weight: 400; color: rgba(255, 255, 255, 0.8); margin: 2px 0 0 0; line-height: 1.2; }
 
         .chat-assist-widget .chat-close-btn {
@@ -320,7 +314,7 @@
                 </div>
             </div>
             <div class="chat-header-center">
-                <div class="chat-header-title">${settings.branding.name}</div>
+                <div class="chat-header-title">${settings.branding.welcomeText || settings.branding.name}</div>
                 <div class="chat-header-subtitle">Hvad ønsker du svar på?</div>
             </div>
             <div class="chat-header-right">

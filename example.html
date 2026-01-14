@@ -11,29 +11,31 @@
 
     <!-- Configure the chat widget BEFORE loading the script -->
     <script>
+        // Optional override — the widget will show V85 defaults if this is omitted
         window.ChatWidgetConfig = {
             webhook: {
-                url: "YOUR_WEBHOOK_URL",
-                route: "YOUR_WEBHOOK_ROUTE"
+                url: "https://rk-automation.app.n8n.cloud/webhook/0efc804b-2816-40a7-989d-ecadfe6d7cdc/chat",
+                route: "chat"
             },
             branding: {
-                logo: "https://example.com/logo.png",
-                name: "Sesam-ChatBot",
-                welcomeText: "Welcome!",
-                responseTimeText: "Typically replies in minutes",
-                introMessage: "Hej! Hvordan kan jeg hjælpe dig?",
+                logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
+                name: "V85",
+                welcomeText: "Velkommen til V85",
+                responseTimeText: "Typisk svar inden for få minutter",
+                introMessage: "Hej! Hvordan kan jeg hjælpe dig i dag?",
                 botAvatar: "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
                 poweredBy: {
-                    text: "Powered by RK-Automation",
-                    link: "https://example.com"
+                    text: "V85",
+                    link: "https://v85.dk"
                 }
             },
             style: {
-                primaryColor: "#10b981",
-                secondaryColor: "#059669",
+                primaryColor: "#d84b4b",
+                secondaryColor: "#b83a3a",
                 position: "right",
                 backgroundColor: "#ffffff",
-                fontColor: "#1f2937"
+                fontColor: "#111827",
+                headerTextColor: "#ffffff"
             }
         };
     </script>
