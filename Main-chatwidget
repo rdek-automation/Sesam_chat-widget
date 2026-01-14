@@ -34,7 +34,7 @@
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
                 text: 'V85',
-                link: 'https://v85.dk'
+                link: 'd5080c8b1b5245b6023e60f843226e2e0d155c65'
             }
         },
         style: {
