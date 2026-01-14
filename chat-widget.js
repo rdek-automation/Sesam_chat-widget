@@ -98,7 +98,7 @@
         .chat-assist-widget .chat-header {
             padding: 16px 16px; display: flex; align-items: center; gap: 12px;
             background: linear-gradient(135deg, var(--chat-color-primary) 0%, var(--chat-color-secondary) 100%);
-            color: white; position: relative; min-height: 64px;
+            color: var(--chat-color-header, #ffffff); position: relative; min-height: 64px;
         }
 
         .chat-assist-widget .chat-header-left { display: flex; align-items: center; gap: 10px; }
