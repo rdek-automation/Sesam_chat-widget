@@ -10,7 +10,8 @@
 //   branding: {
 //     logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
 //     name: "V85",
-//     introMessage: "Hej! Hvordan kan jeg hjælpe dig i dag?",
+//     introMessage: "Hej, mit navn er RK. Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse.
+Stil dit spørgsmål, så hjælper jeg dig videre.",
 //     poweredBy: { text: "V85", link: "https://v85.dk" }
 //   },
 //   style: { primaryColor: "#d84b4b", secondaryColor: "#b83a3a", position: "right" }
@@ -109,8 +110,8 @@
         }
         .chat-assist-widget .chat-header-right { margin-left: auto; display: flex; align-items: center; }
 
-        .chat-assist-widget .chat-header-logo-container { position: relative; display: flex; align-items: center; justify-content: center; }
-        .chat-assist-widget .chat-header-logo { width: 56px; height: 56px; object-fit: contain; background: transparent; padding: 0; }
+        .chat-assist-widget .chat-header-logo-container { position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.95); padding: 6px; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); }
+        .chat-assist-widget .chat-header-logo { width: 44px; height: 44px; object-fit: contain; background: transparent; padding: 0; }
 
         .chat-assist-widget .chat-live-dot {
             position: absolute; width: 12px; height: 12px; background-color: var(--chat-color-live, #10b981);
@@ -400,9 +401,8 @@
     function renderBotMessage(text) {
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble bot-bubble';
-        bubble.innerHTML = linkifyText(text);
+        bubble.innerHTML = linkifyText(text.replace(/\n/g, '<br>'));
 
-        // Wrap with avatar if configured
         if (settings.branding.botAvatarUrl) {
             const wrapper = document.createElement('div');
             wrapper.className = 'bot-message-wrapper';
@@ -422,6 +422,77 @@
         return bubble;
     }
 
+    // Helper: determine if the user is near the bottom (so we can preserve their intention)
+    function isUserNearBottom() {
+        const threshold = 80; // px
+        return messagesContainer.scrollHeight - messagesContainer.scrollTop - messagesContainer.clientHeight <= threshold;
+    }
+
+    // Create bot message elements but start with empty bubble for typing
+    function createBotMessageElements() {
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble bot-bubble';
+        bubble.textContent = '';
+
+        if (settings.branding.botAvatarUrl) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'bot-message-wrapper';
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'bot-avatar';
+            const img = document.createElement('img');
+            img.src = settings.branding.botAvatarUrl;
+            img.alt = 'Bot Avatar';
+            avatarDiv.appendChild(img);
+
+            wrapper.appendChild(avatarDiv);
+            wrapper.appendChild(bubble);
+            return { element: wrapper, bubble };
+        }
+
+        return { element: bubble, bubble };
+    }
+
+    // Typewriter effect: show text progressively, then replace with linkified HTML
+    function typeAndShowBotMessage(fullText) {
+        const { element, bubble } = createBotMessageElements();
+        messagesContainer.appendChild(element);
+
+        const wasNearBottom = isUserNearBottom();
+        // Scroll so the top of the new message is visible
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const len = fullText.length;
+        let speed = 16; // default ms per char
+        if (len > 400) speed = 6;
+        else if (len > 200) speed = 10;
+        else if (len > 100) speed = 12;
+
+        return new Promise((resolve) => {
+            let i = 0;
+            function step() {
+                i += 1;
+                bubble.textContent = fullText.slice(0, i);
+
+                if (wasNearBottom) {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+
+                if (i < fullText.length) {
+                    setTimeout(step, speed);
+                } else {
+                    // finalize with linkified HTML (preserve line breaks)
+                    bubble.innerHTML = linkifyText(fullText.replace(/\n/g, '<br>'));
+                    // final scroll positioning
+                    if (wasNearBottom) messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    else element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    resolve();
+                }
+            }
+            step();
+        });
+    }
+
     function renderUserMessage(text) {
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble user-bubble';
@@ -431,9 +502,8 @@
 
     function insertIntroMessage() {
         if (introInserted || !settings.branding.introMessage) return;
-        const msg = renderBotMessage(settings.branding.introMessage.replace(/\n/g, '<br>'));
-        appendAndScroll(msg);
-        introInserted = true;
+        insertIntroMessage = async () => { }; // prevent re-entry
+        typeAndShowBotMessage(settings.branding.introMessage).then(() => { introInserted = true; });
     }
 
     // ========== 7. WEBHOOK INTERACTIONS ==========
@@ -465,11 +535,11 @@
             messagesContainer.removeChild(typingIndicator);
 
             const text = Array.isArray(data) ? data[0].output : data.output;
-            appendAndScroll(renderBotMessage(text));
+            await typeAndShowBotMessage(text);
         } catch (error) {
             console.error('Message submission error:', error);
             messagesContainer.removeChild(typingIndicator);
-            appendAndScroll(renderBotMessage("Sorry, I couldn't send your message. Please try again."));
+            await typeAndShowBotMessage("Sorry, I couldn't send your message. Please try again.");
         } finally {
             isWaitingForResponse = false;
         }

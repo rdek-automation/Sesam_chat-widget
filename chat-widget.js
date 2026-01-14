@@ -109,8 +109,8 @@
         }
         .chat-assist-widget .chat-header-right { margin-left: auto; display: flex; align-items: center; }
 
-        .chat-assist-widget .chat-header-logo-container { position: relative; display: flex; align-items: center; justify-content: center; }
-        .chat-assist-widget .chat-header-logo { width: 56px; height: 56px; object-fit: contain; background: transparent; padding: 0; }
+        .chat-assist-widget .chat-header-logo-container { position: relative; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.95); padding: 6px; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); }
+        .chat-assist-widget .chat-header-logo { width: 44px; height: 44px; object-fit: contain; background: transparent; padding: 0; }
 
         .chat-assist-widget .chat-live-dot {
             position: absolute; width: 12px; height: 12px; background-color: var(--chat-color-live, #10b981);
@@ -401,9 +401,8 @@
     function renderBotMessage(text) {
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble bot-bubble';
-        bubble.innerHTML = linkifyText(text);
+        bubble.innerHTML = linkifyText(text.replace(/\n/g, '<br>'));
 
-        // Wrap with avatar if configured
         if (settings.branding.botAvatarUrl) {
             const wrapper = document.createElement('div');
             wrapper.className = 'bot-message-wrapper';
@@ -423,6 +422,71 @@
         return bubble;
     }
 
+    function isUserNearBottom() {
+        const threshold = 80;
+        return messagesContainer.scrollHeight - messagesContainer.scrollTop - messagesContainer.clientHeight <= threshold;
+    }
+
+    function createBotMessageElements() {
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble bot-bubble';
+        bubble.textContent = '';
+
+        if (settings.branding.botAvatarUrl) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'bot-message-wrapper';
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'bot-avatar';
+            const img = document.createElement('img');
+            img.src = settings.branding.botAvatarUrl;
+            img.alt = 'Bot Avatar';
+            avatarDiv.appendChild(img);
+
+            wrapper.appendChild(avatarDiv);
+            wrapper.appendChild(bubble);
+            return { element: wrapper, bubble };
+        }
+
+        return { element: bubble, bubble };
+    }
+
+    function typeAndShowBotMessage(fullText) {
+        const { element, bubble } = createBotMessageElements();
+        messagesContainer.appendChild(element);
+
+        const wasNearBottom = isUserNearBottom();
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const len = fullText.length;
+        let speed = 16;
+        if (len > 400) speed = 6;
+        else if (len > 200) speed = 10;
+        else if (len > 100) speed = 12;
+
+        return new Promise((resolve) => {
+            let i = 0;
+            function step() {
+                i += 1;
+                bubble.textContent = fullText.slice(0, i);
+
+                if (wasNearBottom) {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+
+                if (i < fullText.length) {
+                    setTimeout(step, speed);
+                } else {
+                    bubble.innerHTML = linkifyText(fullText.replace(/\n/g, '<br>'));
+                    if (wasNearBottom) messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    else element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    resolve();
+                }
+            }
+            step();
+        });
+    }
+
     function renderUserMessage(text) {
         const bubble = document.createElement('div');
         bubble.className = 'chat-bubble user-bubble';
@@ -432,9 +496,8 @@
 
     function insertIntroMessage() {
         if (introInserted || !settings.branding.introMessage) return;
-        const msg = renderBotMessage(settings.branding.introMessage.replace(/\n/g, '<br>'));
-        appendAndScroll(msg);
-        introInserted = true;
+        insertIntroMessage = async () => {};
+        typeAndShowBotMessage(settings.branding.introMessage).then(() => { introInserted = true; });
     }
 
     // ========== 7. WEBHOOK INTERACTIONS ==========
@@ -466,11 +529,11 @@
             messagesContainer.removeChild(typingIndicator);
 
             const text = Array.isArray(data) ? data[0].output : data.output;
-            appendAndScroll(renderBotMessage(text));
+            await typeAndShowBotMessage(text);
         } catch (error) {
             console.error('Message submission error:', error);
             messagesContainer.removeChild(typingIndicator);
-            appendAndScroll(renderBotMessage("Sorry, I couldn't send your message. Please try again."));
+            await typeAndShowBotMessage("Sorry, I couldn't send your message. Please try again.");
         } finally {
             isWaitingForResponse = false;
         }
