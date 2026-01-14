@@ -11,8 +11,8 @@
 //     logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
 //     name: "V85",
 //     introMessage: "Hej, jeg er Andy! Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse. Stil dit spørgsmål, så hjælper jeg dig videre!",
-//     poweredBy: { text: "V85", link: "https://v85.dk" }
-//   },
+//     poweredBy: { text: "V85", link: "https://gustavwester.github.io/rkautomation-website/" }
+//   }, 
 //   style: { primaryColor: "#d84b4b", secondaryColor: "#b83a3a", position: "right" }
 // }; 
 // ============================================================================
@@ -34,7 +34,7 @@
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
                 text: 'V85',
-                link: 'https://v85.dk'
+                link: 'https://gustavwester.github.io/rkautomation-website/'
             }
         },
         style: {

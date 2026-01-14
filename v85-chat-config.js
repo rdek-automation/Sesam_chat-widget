@@ -9,7 +9,7 @@ window.ChatWidgetConfig = {
         name: "Velkommen til V85",
         introMessage: "Hej, jeg er Andy! Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse. Stil dit spørgsmål, så hjælper jeg dig videre!",
 
-        poweredBy: { text: "V85", link: "https://v85.dk" }
+        poweredBy: { text: "V85", link: "https://gustavwester.github.io/rkautomation-website/" }
     },
     style: {
         // V85: primary red theme
