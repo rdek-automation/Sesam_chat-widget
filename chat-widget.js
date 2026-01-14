@@ -113,7 +113,7 @@
         .chat-assist-widget .chat-header-logo { width: 56px; height: 56px; object-fit: contain; background: transparent; padding: 0; }
 
         .chat-assist-widget .chat-live-dot {
-            position: absolute; width: 12px; height: 12px; background-color: var(--chat-color-primary);
+            position: absolute; width: 12px; height: 12px; background-color: var(--chat-color-live, #10b981);
             border-radius: 50%; bottom: 0; right: 0; animation: chatPulse 2s ease-in-out infinite;
         }
 
