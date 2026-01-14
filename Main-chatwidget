@@ -30,11 +30,11 @@
             name: 'V85',
             welcomeText: 'Velkommen til V85',
             responseTimeText: 'Typisk svar inden for få minutter',
-            introMessage: 'Hej, jeg er Andy! Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse. Stil dit spørgsmål, så hjælper jeg dig videre!',
+            introMessage: 'Hej, jeg er Andy! Jeg kan hjælpe dig med at finde den rette bil, forklare vores udlejningsmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse. Stil dit spørgsmål, så hjælper jeg dig videre!',
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
                 text: 'V85',
-                link: 'd5080c8b1b5245b6023e60f843226e2e0d155c65'
+                link: 'https://gustavwester.github.io/rkautomation-website/'
             }
         },
         style: {
