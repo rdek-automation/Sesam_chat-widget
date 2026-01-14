@@ -7,7 +7,8 @@ window.ChatWidgetConfig = {
     branding: {
         logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
         name: "Velkommen til V85",
-        introMessage: "Velkommen! Hvordan kan vi hjælpe dig i dag?",
+        introMessage: "Hej, jeg er Andy! Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse. Stil dit spørgsmål, så hjælper jeg dig videre!",
+
         poweredBy: { text: "V85", link: "https://v85.dk" }
     },
     style: {
