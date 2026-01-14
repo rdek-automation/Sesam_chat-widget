@@ -10,8 +10,8 @@
 //   branding: {
 //     logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
 //     name: "V85",
-//     introMessage: "Hej, mit navn er RK. Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse.
-Stil dit spørgsmål, så hjælper jeg dig videre.",
+//     introMessage: "Hej! Mit navn er RK. Jeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til tilbud, værksted og skadesanmeldelse.
+// Stil dit spørgsmål, så hjælper jeg dig videre.",
 //     poweredBy: { text: "V85", link: "https://v85.dk" }
 //   },
 //   style: { primaryColor: "#d84b4b", secondaryColor: "#b83a3a", position: "right" }
