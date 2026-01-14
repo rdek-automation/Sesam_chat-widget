@@ -452,13 +452,16 @@
     }
 
     function typeAndShowBotMessage(fullText) {
+        // Normalize escaped newline sequences (\n) to real newlines and strip CR if present
+        const normalized = String(fullText).replace(/\r\n/g, '\n').replace(/\\n/g, '\n').replace(/\r/g, '\n');
+
         const { element, bubble } = createBotMessageElements();
         messagesContainer.appendChild(element);
 
         const wasNearBottom = isUserNearBottom();
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        const len = fullText.length;
+        const len = normalized.length;
         let speed = 16;
         if (len > 400) speed = 6;
         else if (len > 200) speed = 10;
@@ -468,16 +471,17 @@
             let i = 0;
             function step() {
                 i += 1;
-                bubble.textContent = fullText.slice(0, i);
+                bubble.textContent = normalized.slice(0, i);
 
                 if (wasNearBottom) {
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }
 
-                if (i < fullText.length) {
+                if (i < normalized.length) {
                     setTimeout(step, speed);
                 } else {
-                    bubble.innerHTML = linkifyText(fullText.replace(/\n/g, '<br>'));
+                    const html = normalized.replace(/\n{2,}/g, '<br><br>').replace(/\n/g, '<br>');
+                    bubble.innerHTML = linkifyText(html);
                     if (wasNearBottom) messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     else element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     resolve();

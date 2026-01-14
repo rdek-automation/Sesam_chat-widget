@@ -454,6 +454,9 @@
 
     // Typewriter effect: show text progressively, then replace with linkified HTML
     function typeAndShowBotMessage(fullText) {
+        // Normalize escaped newline sequences (\n) to real newlines and strip CR if present
+        const normalized = String(fullText).replace(/\r\n/g, '\n').replace(/\\n/g, '\n').replace(/\r/g, '\n');
+
         const { element, bubble } = createBotMessageElements();
         messagesContainer.appendChild(element);
 
@@ -461,7 +464,7 @@
         // Scroll so the top of the new message is visible
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        const len = fullText.length;
+        const len = normalized.length;
         let speed = 16; // default ms per char
         if (len > 400) speed = 6;
         else if (len > 200) speed = 10;
@@ -471,17 +474,18 @@
             let i = 0;
             function step() {
                 i += 1;
-                bubble.textContent = fullText.slice(0, i);
+                bubble.textContent = normalized.slice(0, i);
 
                 if (wasNearBottom) {
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }
 
-                if (i < fullText.length) {
+                if (i < normalized.length) {
                     setTimeout(step, speed);
                 } else {
-                    // finalize with linkified HTML (preserve line breaks)
-                    bubble.innerHTML = linkifyText(fullText.replace(/\n/g, '<br>'));
+                    // Finalize: convert double newlines to paragraph spacing and single to <br>
+                    const html = normalized.replace(/\n{2,}/g, '<br><br>').replace(/\n/g, '<br>');
+                    bubble.innerHTML = linkifyText(html);
                     // final scroll positioning
                     if (wasNearBottom) messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     else element.scrollIntoView({ behavior: 'smooth', block: 'start' });
