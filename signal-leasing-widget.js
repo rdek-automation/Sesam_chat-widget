@@ -28,7 +28,7 @@
         branding: {
             logo: 'https://s3-eu-west-1.amazonaws.com/tpd/logos/658d6ba19901cd13e0cac081/0x0.png',
             name: 'V85',
-            welcomeText: 'Velkommen til V85',
+            welcomeText: 'Velkommen hos Signal Leasing',
             responseTimeText: 'Typisk svar inden for få minutter',
             introMessage: 'Hej, jeg er Amy!\n\nJeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til en af vores dygtige medarbejdere.\n\nStil dit spørgsmål, så hjælper jeg dig videre!',
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
