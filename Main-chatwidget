@@ -38,11 +38,11 @@
             }
         },
         style: {
-            primaryColor: '#d84b4b',
-            secondaryColor: '#b83a3a',
+            primaryColor: '#1f3d36',
+            secondaryColor: '#152c27',
             position: 'right',
             backgroundColor: '#ffffff',
-            fontColor: '#111827',
+            fontColor: '#1f2937',
             headerTextColor: '#ffffff'
         },
         suggestedQuestions: []
