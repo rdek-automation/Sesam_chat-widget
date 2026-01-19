@@ -4,13 +4,13 @@
 // Example Configuration:
 // window.ChatWidgetConfig = {
 //   webhook: {
-//     url: "https://rk-automation.app.n8n.cloud/webhook/0efc804b-2816-40a7-989d-ecadfe6d7cdc/chat",
+//     url: "https://rk-automation.app.n8n.cloud/webhook/908626e5-86de-46a6-86e5-7b645f1afd57/chat",
 //     route: "chat"
 //   },
 //   branding: {
-//     logo: "https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png",
+//     logo: "https://s3-eu-west-1.amazonaws.com/tpd/logos/658d6ba19901cd13e0cac081/0x0.png",
 //     name: "V85",
-//     introMessage: "Hej, jeg er Andy!\n\nJeg kan hjælpe dig med at finde den rette bil, forklare vores udlejningsmuligheder eller guide dig videre til booking, værksted og skadesanmeldelse.\n\nStil dit spørgsmål, så hjælper jeg dig videre!",
+//     introMessage: "Hej, jeg er Amy!\n\nJeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til en af vores dygtige medarbejdere.\n\nStil dit spørgsmål, så hjælper jeg dig videre!",
 //     poweredBy: { text: "V85", link: "https://gustavwester.github.io/rkautomation-website/" }
 //   },
 //   style: { primaryColor: "#d84b4b", secondaryColor: "#b83a3a", position: "right" }
@@ -26,11 +26,11 @@
     const defaultSettings = {
         webhook: { url: 'https://rk-automation.app.n8n.cloud/webhook/0efc804b-2816-40a7-989d-ecadfe6d7cdc/chat', route: 'chat' },
         branding: {
-            logo: 'https://v85.dk/wp-content/uploads/2025/01/v85-header-logo.png',
+            logo: 'https://s3-eu-west-1.amazonaws.com/tpd/logos/658d6ba19901cd13e0cac081/0x0.png',
             name: 'V85',
             welcomeText: 'Velkommen til V85',
             responseTimeText: 'Typisk svar inden for få minutter',
-            introMessage: 'Hej, jeg er Andy!\n\nJeg kan hjælpe dig med at finde den rette bil, forklare vores udlejningsmuligheder eller guide dig videre til booking, værksted og skadesanmeldelse.\n\nStil dit spørgsmål, så hjælper jeg dig videre!',
+            introMessage: 'Hej, jeg er Amy!\n\nJeg kan hjælpe dig med at finde den rette bil, forklare vores leasingmuligheder eller guide dig videre til en af vores dygtige medarbejdere.\n\nStil dit spørgsmål, så hjælper jeg dig videre!',
             botAvatarUrl: 'https://cdn-icons-png.flaticon.com/512/4712/4712121.png',
             poweredBy: {
                 text: 'V85',
