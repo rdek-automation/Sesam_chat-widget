@@ -5,7 +5,7 @@
 // window.ChatWidgetConfig = {
 //   webhook: {
 //     url: "https://rk-automation.app.n8n.cloud/webhook/908626e5-86de-46a6-86e5-7b645f1afd57/chat",
-//     route: "chat"
+//     route: ""
 //   },
 //   branding: {
 //     logo: "https://s3-eu-west-1.amazonaws.com/tpd/logos/658d6ba19901cd13e0cac081/0x0.png",
