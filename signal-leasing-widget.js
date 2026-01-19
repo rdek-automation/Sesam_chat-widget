@@ -4,8 +4,8 @@
 // Example Configuration:
 // window.ChatWidgetConfig = {
 //   webhook: {
-//     url: "https://rk-automation.app.n8n.cloud/webhook/908626e5-86de-46a6-86e5-7b645f1afd57/chat",
-//     route: ""
+//     url: "https://rk-automation.app.n8n.cloud/webhook/908626e5-86de-46a6-86e5-7b645f1afd57",
+//     route: "chat"
 //   },
 //   branding: {
 //     logo: "https://s3-eu-west-1.amazonaws.com/tpd/logos/658d6ba19901cd13e0cac081/0x0.png",
@@ -24,7 +24,7 @@
 
     // ========== 1. DEFAULTS & CONFIG MERGE ==========
     const defaultSettings = {
-        webhook: { url: 'https://rk-automation.app.n8n.cloud/webhook/908626e5-86de-46a6-86e5-7b645f1afd57/chat', route: 'chat' },
+        webhook: { url: 'https://rk-automation.app.n8n.cloud/webhook/908626e5-86de-46a6-86e5-7b645f1afd57', route: 'chat' },
         branding: {
             logo: 'https://s3-eu-west-1.amazonaws.com/tpd/logos/658d6ba19901cd13e0cac081/0x0.png',
             name: 'V85',
